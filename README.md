@@ -1,3 +1,2 @@
-# Handle_TCGA_Biotabs
-Scripts to manage biotab files from TCGA.
-
+# manipulate_TCGA_Biotabs
+Scripts to download and manipulate biotabs from TCGA.
