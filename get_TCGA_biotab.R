@@ -14,11 +14,13 @@ source("src/fun_stringeval.R")
 #' @param rm.data A \code{logical} specifying whether to remove the downloaded
 #'                data or not once the biotab retrieved.
 #' @value A \code{list} containing 6 elements:
-#'        - biotab: a \code{data.frame} containing the project clinical data.
+#'        - patient.clinicals: a \code{data.frame} containing the project
+#'          clinical data.
 #'        - description.table: a \code{data.frame} containing short description
 #'          of the biotab column names.
 #'        - CDE_ID.table: a \code{data.frame} containing the Clinical Data
 #'          Element IDs for each column of the biotab.
+#'        - biotab: a \code{list} of the downloaded raw biotab tables.
 #'        - warnings.query: a \code{list} of the possible warnings related to
 #'          GDCquery().
 #'        - warnings.DL: a \code{list} of the possible warnings related to
@@ -55,28 +57,35 @@ get.TCGA.biotab<-function(proj.id, dl.dir=NULL, rm.data=FALSE){
         if(file.exists("MANIFEST.txt")){ file.remove("MANIFEST.txt") }
       }
     }
+    #Find "clinical patient" table
+    clname<-
+      names(Prep.query)[grepl(pattern = "_patient_",x = names(Prep.query))]
     #Make column description table
     description.tbl<-data.frame(
-      "column.names" = colnames(Prep.query[[1]]),
-      "column.descriptions" = c(as.matrix(Prep.query[[1]][1,])))
+      "column.names" = colnames(Prep.query[[clname]]),
+      "column.descriptions" =c(as.matrix(Prep.query[[clname]][1,])))
     description.tbl<-description.tbl[sort(description.tbl$column.names),]
     #Make clinical data element table
     CDE_ID.tbl<-data.frame(
-      "column.names" = colnames(Prep.query[[1]]),
-      "clinical.data.element.ID" = c(as.matrix(Prep.query[[1]][2,]))
+      "column.names" = colnames(Prep.query[[clname]]),
+      "clinical.data.element.ID" = c(as.matrix(Prep.query[[clname]][2,]))
     )
     CDE_ID.tbl<-CDE_ID.tbl[sort(CDE_ID.tbl$column.names),]
     #Store clin.biotab
-    biotab<-as.data.frame(Prep.query[[1]][-c(1,2),])
+    patient_clinicals<-as.data.frame(Prep.query[[clname]][-c(1,2),])
     #If any upper case patient UUID convert to lower case 
-    if(any(is.upper(str = biotab$bcr_patient_uuid))){
-      biotab$bcr_patient_uuid[is.upper(str = biotab$bcr_patient_uuid)]<-
-        tolower(biotab$bcr_patient_uuid[is.upper(str=biotab$bcr_patient_uuid)])
+    if(any(is.upper(str = patient_clinicals$bcr_patient_uuid))){
+      patient_clinicals$bcr_patient_uuid[
+        is.upper(str = patient_clinicals$bcr_patient_uuid)]<-
+        tolower(patient_clinicals$bcr_patient_uuid[
+          is.upper(str=patient_clinicals$bcr_patient_uuid)])
     }
   } else { stop("Unknown TCGA project.")}
-  return(list("biotab" = biotab, "description.table" = description.tbl,
-              "CDE_ID.table" = CDE_ID.tbl, "warnings.query" = warn.query,
-              "warnings.DL" = warn.DL, "warnings.preps" = warn.prep))
+  return(list(
+    "patient.clinicals"=patient_clinicals, "description.table"=description.tbl,
+    "CDE_ID.table" = CDE_ID.tbl, "biotab" = Prep.query,
+    "warnings.query" = warn.query, "warnings.DL" = warn.DL,
+    "warnings.preps" = warn.prep))
 }
 
 #' @description Returns a list of biotabs, one biotab per TCGA project.
