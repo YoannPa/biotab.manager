@@ -1,7 +1,7 @@
 ##FUNCTIONS
 
-#' @description Save a list of named object as independent RDS files.
-#' 
+#' Save a list of named object as independent RDS files.
+#'
 #' @param list.object A \code{list} of named object to serialize. Object names
 #'                    are used as file names.
 #' @param dir.save    A \code{character} to specify the path to a folder where
@@ -16,14 +16,13 @@
 #'                    to indicate the type of compression to be used. Ignored if
 #'                    file is a connection.
 #' @param refhook     A hook function for handling reference objects.
-#' @value A \code{type} object returned description.
+#' @return A \code{type} object returned description.
 #' @author Yoann Pageaud.
 #' @export
-#' @examples
-#' @references
+#' @keywords internal
 
-saveRDSls<-function(list.object, dir.save, ascii = FALSE, version = NULL,
-                    compress = TRUE, refhook = NULL){
+saveRDSls <- function(list.object, dir.save, ascii = FALSE, version = NULL,
+                      compress = TRUE, refhook = NULL){
   if(!dir.exists(dir.save)){ dir.create(dir.save) }
   invisible(lapply(seq_along(list.object),function(i){
     saveRDS(

@@ -1,36 +1,35 @@
 ##IMPORTS
 Imports = c("TCGAbiolinks", "simsalapar", "data.table")
 lapply(Imports, library, character.only = T)
-source("src/fun/fun_stringeval.R")
 
 ##FUNCTIONS
 
-#' @description Returns a biotab for a given TCGA project ID.
-#' 
+#' Returns a biotab for a given TCGA project ID.
+#'
 #' @param proj.id A \code{character} specifying a TCGA project name.
 #' @param dl.dir  A \code{character} specifying the path where downloaded
 #'                clinical raw data should be saved. If NULL, a folder 'GDCdata'
 #'                is created in the working directory (Default: dl.dir = NULL).
 #' @param rm.data A \code{logical} specifying whether to remove the downloaded
 #'                data or not once the biotab retrieved.
-#' @return A \code{list} containing 6 elements:
-#'        - patient.clinicals: a \code{data.frame} containing the project
-#'          clinical data.
-#'        - description.table: a \code{data.frame} containing short description
-#'          of the biotab column names.
-#'        - CDE_ID.table: a \code{data.frame} containing the Clinical Data
-#'          Element IDs for each column of the biotab.
-#'        - biotab: a \code{list} of the downloaded raw biotab tables.
-#'        - warnings.query: a \code{list} of the possible warnings related to
-#'          GDCquery().
-#'        - warnings.DL: a \code{list} of the possible warnings related to
-#'          GDCdownload().
-#'        - warnings.preps: a \code{list} of the possible warnings related to
-#'          GDCprepare().
+#' @return A \code{list} containing 7 elements:
+#'         \itemize{
+#'          \item{patient.clinicals: a \code{data.frame} containing the project
+#'          clinical data.}
+#'          \item{description.table: a \code{data.frame} containing short
+#'          description of the biotab column names.}
+#'          \item{CDE_ID.table: a \code{data.frame} containing the Clinical Data
+#'          Element IDs for each column of the biotab.}
+#'          \item{biotab: a \code{list} of the downloaded raw biotab tables.}
+#'          \item{warnings.query: a \code{list} of the possible warnings related
+#'          to GDCquery().}
+#'          \item{warnings.DL: a \code{list} of the possible warnings related to
+#'          GDCdownload().}
+#'          \item{warnings.preps: a \code{list} of the possible warnings related
+#'          to GDCprepare().}
+#'         }
 #' @author Yoann Pageaud.
 #' @export
-#' @examples
-#' @references
 
 get.TCGA.biotab <- function(proj.id, dl.dir = NULL, rm.data = FALSE){
   if(grepl(pattern = "^TCGA-*", x = proj.id)){
@@ -43,7 +42,7 @@ get.TCGA.biotab <- function(proj.id, dl.dir = NULL, rm.data = FALSE){
     #Download clinical data
     if(!is.null(dl.dir)){ main_wd <- getwd() ; setwd(dl.dir) }
     warn.DL <-tryCatch.W.E(GDCdownload(query))$warning
-    #Get clinical biotab 
+    #Get clinical biotab
     warn.prep <- tryCatch.W.E(Prep.query <- GDCprepare(query))$warning
     if(!is.null(dl.dir)){
       if(rm.data){
@@ -73,7 +72,7 @@ get.TCGA.biotab <- function(proj.id, dl.dir = NULL, rm.data = FALSE){
     CDE_ID.tbl <- CDE_ID.tbl[sort(CDE_ID.tbl$column.names), ]
     #Store clin.biotab
     patient_clinicals <- as.data.frame(Prep.query[[clname]][-c(1,2), ])
-    #If any upper case patient UUID convert to lower case 
+    #If any upper case patient UUID convert to lower case
     if(any(is.upper(str = patient_clinicals$bcr_patient_uuid))){
       patient_clinicals$bcr_patient_uuid[
         is.upper(str = patient_clinicals$bcr_patient_uuid)] <-
@@ -88,34 +87,35 @@ get.TCGA.biotab <- function(proj.id, dl.dir = NULL, rm.data = FALSE){
     "warnings.DL" = warn.DL, "warnings.preps" = warn.prep))
 }
 
-#' @description Returns a list of biotabs, one biotab per TCGA project.
-#' 
+#' Returns a list of biotabs, one biotab per TCGA project.
+#'
 #' @param proj.ids A \code{character} vector containing TCGA projects names.
 #' @param dl.dir   A \code{character} specifying the path where downloaded
 #'                 clinical raw data should be saved. If NULL, a folder
 #'                 'GDCdata' is created in the working directory
 #'                 (Default: dl.dir = NULL).
 #' @param rm.data  A \code{logical} specifying whether to remove the downloaded
-#'                 data or not once the biotab retrieved.               
+#'                 data or not once the biotab retrieved.
 #' @return A \code{list} containing results for each TCGA projects. A result is
 #'         a \code{list} itself which contains 6 elements:
-#'        - biotab: a \code{data.frame} containing the project clinical data.
-#'        - description.table: a \code{data.frame} containing short description
-#'          of the biotab column names.
-#'        - CDE_ID.table: a \code{data.frame} containing the Clinical Data
-#'          Element IDs for each column of the biotab.
-#'        - warnings.query: a \code{list} of the possible warnings related to
-#'          GDCquery().
-#'        - warnings.DL: a \code{list} of the possible warnings related to
-#'          GDCdownload().
-#'        - warnings.preps: a \code{list} of the possible warnings related to
-#'          GDCprepare().
+#'         \itemize{
+#'          \item{biotab: a \code{data.frame} containing the project clinical
+#'          data.}
+#'          \item{description.table: a \code{data.frame} containing short
+#'          description of the biotab column names.}
+#'          \item{CDE_ID.table: a \code{data.frame} containing the Clinical Data
+#'          Element IDs for each column of the biotab.}
+#'          \item{warnings.query: a \code{list} of the possible warnings related
+#'          to GDCquery().}
+#'          \item{warnings.DL: a \code{list} of the possible warnings related to
+#'          GDCdownload().}
+#'          \item{warnings.preps: a \code{list} of the possible warnings related
+#'          to GDCprepare().}
+#'         }
 #' @author Yoann Pageaud.
 #' @export
-#' @examples
-#' @references
 
-get.ls.TCGA.biotab <- function(proj.ids, dl.dir = NULL, rm.data = FALSE){ 
+get.ls.TCGA.biotab <- function(proj.ids, dl.dir = NULL, rm.data = FALSE){
   #Keep only TCGA projects
   processable.proj <- proj.ids[grepl("^TCGA-*", proj.ids)]
   #Display projects that are not from TCGA
@@ -130,13 +130,13 @@ get.ls.TCGA.biotab <- function(proj.ids, dl.dir = NULL, rm.data = FALSE){
   if(!is.null(unprocessable.proj)){
     warning(paste(c(
       "The following projects have been discarded from the output: ",
-      unprocessable.proj, "\n"))) 
+      unprocessable.proj, "\n")))
   }
   return(res.ls)
 }
 
 #' Convert TCGA project ID into ICGC cohort and vice versa.
-#' 
+#'
 #' @param project A \code{character} vector of valid TCGA projects and/or
 #'                ICGC cohorts.
 #' @param to      A \code{character} specifying the output format of project
@@ -154,7 +154,7 @@ ICGC.to.TCGA.project <- function(project = NULL, to = "TCGA"){
   icgc.to.tcga.code <- data.frame("ICGC_code" = paste0(gsub(
     pattern = "^TCGA-", replacement = "", x = TCGA.codes), "-US"),
     "TCGA_code" = TCGA.codes)
-  
+
   if(to == "TCGA"){
     #Convert detected ICGC codes into TCGA codes
     if(any(project %in% icgc.to.tcga.code$ICGC_code)){
@@ -197,8 +197,8 @@ ICGC.to.TCGA.project <- function(project = NULL, to = "TCGA"){
   return(project)
 }
 
-#' Collects patients clinical data from specific TCGA projects. 
-#' 
+#' Collects patients clinical data from specific TCGA projects.
+#'
 #' @param biotabs.dir     A \code{character} to specify the directory where all
 #'                        biotabs have been downloaded using
 #'                        get.ls.TCGA.biotab() or get.TCGA.biotab().
@@ -212,8 +212,6 @@ ICGC.to.TCGA.project <- function(project = NULL, to = "TCGA"){
 #'         clinical data as a \code{tibble} or a \code{data.table}.
 #' @author Yoann Pageaud.
 #' @export
-#' @examples
-#' @references
 
 get.TCGA.clinical <- function(
   biotabs.dir, proj.id, patient.barcode, as.dt = FALSE){
@@ -249,7 +247,7 @@ get.TCGA.clinical <- function(
     lapply(X = biotab, function(b){
       if(as.dt){
         data.table::as.data.table(b[
-          b$bcr_patient_barcode %in% patient.barcode, ])  
+          b$bcr_patient_barcode %in% patient.barcode, ])
       } else {
         b[b$bcr_patient_barcode %in% patient.barcode, ]
       }
@@ -261,7 +259,7 @@ get.TCGA.clinical <- function(
 
 #' Subset clinical data from collected patients clinical data, and return it
 #' into a data.table.
-#' 
+#'
 #' @param TCGA.clinical A \code{list} of TCGA projects clinical data generated
 #'                      using get.TCGA.clinical().
 #' @param biotab.type   A \code{character} to specify the type of biotab to
@@ -277,11 +275,11 @@ get.TCGA.clinical <- function(
 #' @param to.ICGC       A \code{logical} to specify whether the TCGA project
 #'                      should be converted into ICGC cohorts (to.ICGC = TRUE)
 #'                      or not (Default: to.ICGC = FALSE).
-#' @return A \code{type} object returned description.
+#' @return A \code{data.table} containing data from columns of interest, for the
+#'         type of biotab specified and for the TCGA patients available in
+#'         'TCGA.clinical'.
 #' @author Yoann Pageaud.
 #' @export
-#' @examples
-#' @references
 
 TCGA.clinical.as.dt <- function(
   TCGA.clinical, biotab.type = "clinical_patient", columns = "all",
@@ -295,7 +293,7 @@ TCGA.clinical.as.dt <- function(
         colnames(p[[biotab.selected]])
       })
       columns <- unique(unlist(colnames.used))
-    }  
+    }
   }
   #Subset data from data.type of the projects list
   ls.TCGA.clin <- lapply(X = TCGA.clinical, FUN = function(p){

@@ -5,11 +5,10 @@
 #' @param x   A \code{character} string.
 #' @param sep A \code{character} vector to specify multiple separator to remove
 #'            during lowercase conversion (Default: sep = c(" ", "_")).
-#' @value A \code{character} string converted in lowercase.
+#' @return A \code{character} string converted in lowercase.
 #' @author Yoann Pageaud.
 #' @export
-#' @examples
-#' @references
+#' @keywords internal
 
 smart.tolower <- function(x, sep = c(" ", "_")){
   #Split words

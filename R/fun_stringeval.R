@@ -1,29 +1,31 @@
 ##FUNCTIONS
 
 #' Checks if an alphanumerical string contains any upper case character.
-#' 
+#'
 #' @param str A \code{character} vector to be evaluated looking for any
 #'                               uppercase character.
 #' @return A \code{logical}.
 #' @author Yoann Pageaud.
 #' @export
+#' @keywords internal
 
-is.upper<-function(str){ grepl(pattern = "[A-Z]+", x = str) }
+is.upper <- function(str){ grepl(pattern = "[A-Z]+", x = str) }
 
-#' Checks if an array, a dataframe or a matrix contains any empty cell. 
-#' 
+#' Checks if an array, a dataframe or a matrix contains any empty cell.
+#'
 #' @param data An \code{array}, a \code{dataframe} or a \code{matrix}.
 #' @return A \code{logical}, TRUE if the array contains at least 1 empty cell,
 #'         FALSE if it does not.
 #' @author Yoann Pageaud.
 #' @export
+#' @keywords internal
 
 any.empty <- function(data){
   any(apply(X = data, MARGIN = 2,FUN = grepl, pattern = "^$"))
 }
 
 #' Develops a data.table row if it contains information for more than 1 sample.
-#' 
+#'
 #' @param dt.row A \code{data.table} of 1 single row.
 #' @return A developped \code{data.table} of n rows, with 1 row per sample.
 #' @author Yoann Pageaud.
@@ -56,7 +58,7 @@ dt.develop <- function(dt.row){
     }
     #Compute length of each element
     res.length <- unlist(lapply(X = res.split.comma, FUN = length))
-    
+
     #Check that every element is either of length 1 or length = num_samples
     if(all(res.length == 1 | res.length == dt.row$num_samples)){
       #Create new data.table

@@ -1,0 +1,20 @@
+Package: biotab.manager
+Type: Package
+Title: Manage TCGA clinical tables
+Version: 0.1.0
+Authors@R: 
+    person(given = "Yoann",
+           family = "Pageaud",
+           role = c("aut", "cre"),
+           email = "y.pageaud@dkfz.de",
+           comment = c(ORCID = "https://orcid.org/0000-0002-1392-1744"))
+Description: biotab.manager is a R package allowing you to download, manage, subset, and aggregate clinical information about patients from TCGA biotabs.
+License: GPL-3.0
+Encoding: UTF-8
+LazyData: true
+Depends:
+    TCGAbiolinks,
+    data.table
+Imports:
+    simsalapar
+RoxygenNote: 7.1.1
