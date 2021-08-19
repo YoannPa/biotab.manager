@@ -1,13 +1,19 @@
 # biotab.manager - Manage TCGA clinical tables <img src="img/biotab.manager_hexsticker.png" align="right" height="140" />
+
+![GitHub repo size](https://img.shields.io/github/repo-size/YoannPa/biotab.manager)
+![GitHub issues](https://img.shields.io/github/issues-raw/YoannPa/biotab.manager)
+![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/YoannPa/biotab.manager)  
+
 _**biotab.manager** is a R package allowing you to download, manage, subset, and aggregate TCGA patients clinical data (biotabs) from the GDC portal. The package is built upon TCGAbiolinks to query TCGA databases, and makes use of R data.table handle queries results._  
 
 **Author: PAGEAUD Y.<sup>1</sup>**  
 **1-** [**DKFZ - Division of Applied Bioinformatics, Germany.**](https://www.dkfz.de/en/applied-bioinformatics/index.php)  
 
-**Version: 0.1.0 (Beta)**  
-**R Compatibility: Version 4.0.5**  
-**Last Update: 06/08/2021**  
 **How to cite:** _Pageaud Y. et al., biotab.manager - Manage TCGA clinical tables._  
+![GitHub R package version](https://img.shields.io/github/r-package/v/YoannPa/biotab.manager?label=Package%20version&logo=RStudio&logoColor=white&style=for-the-badge)  
+<img src="https://img.shields.io/static/v1?label=compatibility&message=4.0.5&color=blue&logo=R&logoColor=white&style=for-the-badge" />  
+![GitHub last commit](https://img.shields.io/github/last-commit/YoannPa/biotab.manager?logo=git&style=for-the-badge)  
+![GitHub](https://img.shields.io/github/license/YoannPa/biotab.manager?color=brightgreen&style=for-the-badge)  
 
 ## Content
 Currently the package BiocompR contains **8 functions**:
@@ -64,5 +70,3 @@ If you encounters issues or if a feature you would expect is not available in a 
 3. [_Grossman, Robert L., Heath, Allison P., Ferretti, Vincent, Varmus, Harold E., Lowy, Douglas R., Kibbe, Warren A., Staudt, Louis M. (2016) Toward a Shared Vision for Cancer Genomic Data. **New England Journal of Medicine 375:12, 1109-1112.**_](https://www.nejm.org/doi/10.1056/NEJMp1607591)
 4. Official R data.table Github repository: [https://github.com/Rdatatable/data.table](https://github.com/Rdatatable/data.table)
 
-## Licence
-The repository biotab.manager is currently under the GPL-3.0 licence.  
