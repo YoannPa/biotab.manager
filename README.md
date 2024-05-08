@@ -16,7 +16,7 @@ _**biotab.manager** is a R package allowing you to download, manage, subset, and
 ![GitHub](https://img.shields.io/github/license/YoannPa/biotab.manager?color=brightgreen&style=for-the-badge)  
 
 ## Content
-Currently the package BiocompR contains **8 functions**:
+Currently the package biotab.manager contains **8 functions**:
 
 * `dt.develop()` - Develops a data.table row if it contains information for more than 1 sample.  
 * `get.ls.TCGA.biotab()` - Returns a list of biotabs, one biotab per TCGA project.  
@@ -49,7 +49,7 @@ install.packages(inst.pkgs)
 ```bash
 git clone https://github.com/YoannPa/biotab.manager.git
 ```
-4. Open the folder BiocompR and open the "biotab.manager.Rproj" file in RStudio.
+4. Open the folder biotab.manager/ and open the "biotab.manager.Rproj" file in RStudio.
 5. In the RStudio console, type:
 ```R
 devtools::install()
@@ -62,7 +62,7 @@ For any questions **Not related to bugs or development** please check the sectio
 No issues reported yet for the package.  
 
 ## Technical questions / Development / Feature request
-If you encounters issues or if a feature you would expect is not available in a BiocompR function, please check if an existing issue adresses your point [here](https://github.com/YoannPa/biotab.manager/issues/). If not, create a [new issue here](https://github.com/YoannPa/biotab.manager/issues/new).  
+If you encounters issues or if a feature you would expect is not available in a biotab.manager function, please check if an existing issue adresses your point [here](https://github.com/YoannPa/biotab.manager/issues/). If not, create a [new issue here](https://github.com/YoannPa/biotab.manager/issues/new).  
 
 ## References
 1. [_Colaprico, A. et al. TCGAbiolinks: an R/Bioconductor package for integrative analysis of TCGA data. **Nucleic Acids Research 44, e71–e71 (2016)**._](https://academic.oup.com/nar/article/44/8/e71/2465925)
